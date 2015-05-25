@@ -370,8 +370,8 @@ static MyDownloadManager *downloadManager;
     BOOL success = NO;
     NSString *pathString = [NSString stringWithFormat:MyDownloadDataSavePath, NSHomeDirectory()];
     NSFileManager* fileManager = [NSFileManager defaultManager];
-    BOOL audioPathExist = [fileManager fileExistsAtPath:pathString];
-    if (audioPathExist == NO)
+    BOOL dataSavePathExist = [fileManager fileExistsAtPath:pathString];
+    if (dataSavePathExist == NO)
     {
         //路径不存在，则创建
         BOOL creatResult = [fileManager createDirectoryAtPath:pathString withIntermediateDirectories:YES attributes:nil error:nil];
@@ -402,8 +402,8 @@ static MyDownloadManager *downloadManager;
     BOOL success = NO;
     NSString *pathString = [NSString stringWithFormat:MyDownloadDataInfoSavePath, NSHomeDirectory()];
     NSFileManager* fileManager = [NSFileManager defaultManager];
-    BOOL audioPathExist = [fileManager fileExistsAtPath:pathString];
-    if (audioPathExist == NO)
+    BOOL dataInfoSavePathExist = [fileManager fileExistsAtPath:pathString];
+    if (dataInfoSavePathExist == NO)
     {
         //路径不存在，则创建
         BOOL creatResult = [fileManager createDirectoryAtPath:pathString withIntermediateDirectories:YES attributes:nil error:nil];
