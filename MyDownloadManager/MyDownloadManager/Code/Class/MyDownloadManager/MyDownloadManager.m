@@ -149,16 +149,27 @@ static MyDownloadManager *downloadManager;
     
     //设置下载进度block
     [requestOperation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        NSMutableDictionary *tpDataDic = [NSMutableDictionary dictionary];
-        [tpDataDic setObject:urlString forKey:@"url"];
-        [tpDataDic setValue:[NSString stringWithFormat:@"%lld",totalBytesExpectedToRead] forKey:@"length"];
-        [tpDataDic setObject:[NSNumber numberWithBool:NO] forKey:@"isFinish"];
+        long long totalBytesNeedRead;
+        if (clear == NO)
+        {
+            //需要支持断点下载，则需要保存下载信息
+            NSMutableDictionary *tpDataDic = [NSMutableDictionary dictionary];
+            [tpDataDic setObject:urlString forKey:@"url"];
+            [tpDataDic setValue:[NSString stringWithFormat:@"%lld",totalBytesExpectedToRead] forKey:@"length"];
+            [tpDataDic setObject:[NSNumber numberWithBool:NO] forKey:@"isFinish"];
+            [weakSelf writeData:tpDataDic];
+            
+            NSDictionary *dataInfoDic = [weakSelf readData:urlString];
+            NSString *haveNeedLength = [dataInfoDic objectForKey:@"length"];
+            totalBytesNeedRead = [haveNeedLength longLongValue];
+        }
+        else
+        {
+            //不需要支持断点下载
+            totalBytesNeedRead = totalBytesExpectedToRead;
+        }
         
-        [weakSelf writeData:tpDataDic];
-        
-        NSDictionary *dataInfoDic = [weakSelf readData:urlString];
-        NSString *haveNeedLength = [dataInfoDic objectForKey:@"length"];
-        long long totalBytesNeedRead = [haveNeedLength longLongValue];
+        //保险起见
         if (totalBytesNeedRead == 0)
         {
             totalBytesNeedRead = totalBytesExpectedToRead;
