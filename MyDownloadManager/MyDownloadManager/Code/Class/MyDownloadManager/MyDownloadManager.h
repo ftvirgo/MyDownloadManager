@@ -69,4 +69,12 @@
  */
 -(void)clearWihtName:(NSString *)name result:(void(^)(BOOL success , NSUInteger size , NSError *error))result;
 
+/**
+ *  获取文件路径 -- 根据文件名
+ *
+ *  @param string 文件URL
+ *  @param path   block返回的文件路径
+ */
+-(void)getFilePathWithURL:(NSString *)string path:(void(^)(NSString *path))path;
+
 @end

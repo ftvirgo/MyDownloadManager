@@ -299,6 +299,29 @@ static MyDownloadManager *downloadManager;
 }
 
 
+/**
+ *  获取文件路径 -- 根据文件名
+ *
+ *  @param string 文件URL
+ *  @param path   block返回的文件路径
+ */
+-(void)getFilePathWithURL:(NSString *)string path:(void(^)(NSString *path))path
+{
+    NSString *pathString = [self creatDataPath:string];
+    if (path)
+    {
+        path(pathString);
+    }
+}
+
+/**
+ *  创建请求
+ *
+ *  @param string 文件下载URL
+ *  @param clear  是否清理已下载文件
+ *
+ *  @return 返回创建的请求
+ */
 -(NSMutableURLRequest *)creatRequestWithURL:(NSString *)string clearDataIfExist:(BOOL)clear
 {
     NSURL *url = [NSURL URLWithString:string];
